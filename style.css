@@ -1,0 +1,256 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* 화면 전체 스크롤 방지 */
+}
+
+.container {
+  display: flex; /* 가로 배치 (왼쪽 캔버스, 오른쪽 사이드바) */
+  height: 100vh;
+}
+
+#canvas {
+  flex: 8; /* 화면의 80% */
+  position: relative;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+.sidebar {
+  flex: 2; /* 화면의 20% */
+  padding: 20px;
+  border-left: 1px solid #ccc;
+  background: white;
+  display: flex;
+  flex-direction: column; /* 내부 요소를 위->아래로 배치 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+/* 입력 영역 */
+.input-section {
+  flex-shrink: 0; /* 크기 고정 */
+  margin-bottom: 10px;
+}
+.input-section input {
+  width: 60%;
+  padding: 5px;
+}
+.input-section button {
+  width: 30%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+/* 구분선 */
+.divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
+}
+
+/* 리스트 영역 (입력창 바로 아래) */
+.list-section {
+  flex: 1; /* 남은 공간을 차지하되, 내용은 위에서부터 시작 */
+  overflow-y: auto; /* 내용이 넘치면 스크롤 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 리스트 아이템 디자인 */
+.person-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 5px solid #ccc;
+  font-size: 14px;
+}
+
+.delete-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.delete-btn:hover {
+  background: #cc0000;
+}
+
+/* 캔버스 내부 요소 */
+.person {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 60px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  z-index: 10; /* 선보다 위에 표시 */
+}
+.person:active {
+  cursor: grabbing;
+}
+
+#lines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.relation-text {
+  font-size: 12px;
+  fill: #333;
+  cursor: pointer;
+  pointer-events: auto;
+  font-weight: bold;
+  background: white; /* 텍스트 뒤 배경이 필요하면 SVG 대신 HTML 요소 고려 가능 */
+}
+/* ... 기존 코드 아래에 추가 ... */
+
+/* SVG 선(화살표 몸통) 스타일 */
+/* 기존 line 스타일 수정 및 보강 */
+line {
+  stroke: #555;
+  stroke-width: 2px;
+  cursor: pointer;
+  pointer-events: stroke; /* 선 자체에서 이벤트를 잘 받도록 설정 */
+}
+
+line:hover {
+  stroke: #ff4d4d; /* 마우스 올리면 빨간색으로 표시 */
+  stroke-width: 4px;
+}
+
+.relation-text {
+  font-size: 12px;
+  font-weight: bold;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: auto;
+}
+
+.relation-text:hover {
+  fill: #ff4d4d;
+}
+/* 오른쪽 리스트의 이름 텍스트 스타일 */
+.person-name-text {
+  cursor: pointer;
+  flex: 1; /* 이름 영역을 넓게 잡아서 클릭하기 편하게 함 */
+  margin-right: 10px;
+}
+
+.person-name-text:hover {
+  text-decoration: underline; /* 마우스 올리면 밑줄 */
+  color: #007bff; /* 파란색으로 변경 */
+}
+
+/* 왼쪽 원(Person)에 대한 툴팁 안내 (선택사항) */
+.person {
+  /* ... 기존 속성 ... */
+  transition: transform 0.1s;
+}
+
+.person:hover {
+  transform: scale(1.05); /* 마우스 올리면 살짝 커짐 */
+}
+/* 색상 선택기 스타일 */
+.color-picker {
+  border: none;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background: none;
+  margin-right: 10px;
+  padding: 0;
+}
+
+/* 관계선 텍스트 가시성 */
+.relation-text {
+  /* ... 기존 설정 ... */
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 3px; /* 글자 테두리를 주어 선 위에서도 잘 보이게 함 */
+  stroke-linejoin: round;
+}
+
+/* 저장 버튼 스타일 */
+.save-section {
+  margin-top: 10px;
+}
+
+#saveBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50; /* 초록색 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+#saveBtn:hover {
+  background-color: #45a049;
+}
+
+/* 캡처 시 배경색이 투명하게 나오지 않도록 캔버스 설정 */
+#canvas {
+  background-color: #f5f5f5; /* 캡처 시 이 배경색이 유지됨 */
+}
+.add-btn {
+  background-color: #28a745; /* 초록색 */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-btn:hover {
+  background-color: #218838; /* 마우스 올리면 더 진한 초록색 */
+}
+/* 데이터 관리 구역 스타일 */
+.file-section {
+  margin-bottom: 10px;
+}
+
+.save-btn-green {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-btn-green:hover {
+  background-color: #45a049;
+}
+
+.file-section button {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.file-section button:hover {
+  background: #f0f0f0;
+}

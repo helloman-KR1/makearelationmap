@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>인물 관계도</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div id="canvas">
+      <svg id="lines">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                  refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="sidebar">
+  <div class="input-section">
+    <h3>인물 추가</h3>
+    <input id="nameInput" placeholder="이름 입력" autocomplete="off">
+    <button onclick="addPerson()" class="add-btn">추가</button>
+  </div>
+
+  <hr class="divider">
+
+  <div class="file-section">
+    <h3>데이터 관리</h3>
+    <button onclick="saveAsImage()" id="saveBtn" class="save-btn-green">관계도 이미지(PNG) 저장</button>
+    
+    <div style="display: flex; gap: 5px; margin-top: 10px;">
+      <button onclick="saveData()" style="flex: 1; padding: 8px; cursor: pointer;">데이터 저장(.json)</button>
+      
+      <label for="fileInput" style="flex: 1; background: #eee; text-align: center; padding: 8px; cursor: pointer; border: 1px solid #ccc; font-size: 12px; border-radius: 4px;">
+        데이터 불러오기
+        <input type="file" id="fileInput" style="display: none;" onchange="loadData(event)">
+      </label>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="list-section">
+    <h3>인물 목록</h3>
+    <div id="personList">
+      </div>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+<polygon points="0 0, 10 3.5, 0 7" fill="#555" />
+<svg id="lines">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="context-stroke" />
+    </marker>
+  </defs>
+</svg>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+
